@@ -23,6 +23,10 @@ namespace MagicLight
         private WaveBuffer buffer;
         double audioScale = 0;
 
+        // For dragging
+        private Point anchorPoint = new Point();
+        private bool Dragging = false;
+
         [StructLayout(LayoutKind.Sequential)]
         internal struct Win32Point
         {
@@ -119,8 +123,20 @@ namespace MagicLight
                 };
             }
 
-            //Dragging
-            DragMove();
+            Dragging = true;
+            anchorPoint = Mouse.GetPosition(null);
+        }
+
+        private void Window_MouseMove(object sender, MouseEventArgs e) {
+            if (Dragging) {
+                Point cursorPos = Mouse.GetPosition(null);
+                this.Left += cursorPos.X - anchorPoint.X;
+                this.Top += cursorPos.Y - anchorPoint.Y;
+            }
+        }
+
+        private void Window_MouseUp(object sender, MouseButtonEventArgs e) {
+            Dragging = false;
         }
 
         private void Window_MouseWheel(object sender, MouseWheelEventArgs e)
