@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
@@ -44,17 +45,17 @@ namespace MagicLight
             InitializeComponent();
             this.Topmost = true;
 
-            //Storyboard seconds = (Storyboard)second.FindResource("sbseconds");
-            //seconds.Begin();
-            //seconds.Seek(new TimeSpan(0, 0, 0, DateTime.Now.Second, 0));
+            Storyboard seconds = (Storyboard)second.FindResource("sbseconds");
+            seconds.Begin();
+            seconds.Seek(new TimeSpan(0, 0, 0, DateTime.Now.Second, 0));
 
-            //Storyboard minutes = (Storyboard)minute.FindResource("sbminutes");
-            //minutes.Begin();
-            //minutes.Seek(new TimeSpan(0, 0, DateTime.Now.Minute, DateTime.Now.Second, 0));
+            Storyboard minutes = (Storyboard)minute.FindResource("sbminutes");
+            minutes.Begin();
+            minutes.Seek(new TimeSpan(0, 0, DateTime.Now.Minute, DateTime.Now.Second, 0));
 
-            //Storyboard hours = (Storyboard)hour.FindResource("sbhours");
-            //hours.Begin();
-            //hours.Seek(new TimeSpan(0, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second, 0));
+            Storyboard hours = (Storyboard)hour.FindResource("sbhours");
+            hours.Begin();
+            hours.Seek(new TimeSpan(0, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second, 0));
 
             //Eye Movement
             DispatcherTimer dispatcherTimer = new DispatcherTimer();
@@ -80,10 +81,9 @@ namespace MagicLight
             dispatcherVisualizerTimer.Interval = new TimeSpan(0, 0, 0, 0, 200);
             dispatcherVisualizerTimer.Start();
 
-
+            //Main Scale
             mainScaleTransform.BeginAnimation(ScaleTransform.ScaleXProperty, new DoubleAnimation(AppScale, TimeSpan.FromMilliseconds(200)));
             mainScaleTransform.BeginAnimation(ScaleTransform.ScaleYProperty, new DoubleAnimation(AppScale, TimeSpan.FromMilliseconds(200)));
-
 
             //Audio capture
             capture.DataAvailable += DataAvailable;
@@ -101,10 +101,29 @@ namespace MagicLight
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            //Clock control
+            if (clock.Opacity == 0)
+            {
+                DoubleAnimation showAnim = new DoubleAnimation();
+                showAnim.Duration = TimeSpan.FromSeconds(1);
+                showAnim.EasingFunction = new PowerEase() { EasingMode = EasingMode.EaseIn };
+                showAnim.To = 1;
+                clock.BeginAnimation(Grid.OpacityProperty, showAnim);
+
+                DispatcherTimer clockTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(10) };
+                clockTimer.Start();
+                clockTimer.Tick += (s, args) =>
+                {
+                    showAnim.To = 0;
+                    clock.BeginAnimation(Grid.OpacityProperty, showAnim);
+                };
+            }
+
+            //Dragging
             DragMove();
         }
 
-        private void Window_MouseWhell(object sender, MouseWheelEventArgs e)
+        private void Window_MouseWheel(object sender, MouseWheelEventArgs e)
         {
             if (e.Delta > 0 && AppScale < 1.2)
             {
@@ -196,12 +215,12 @@ namespace MagicLight
             double scale = 0;
             for (int i = 0; i < Math.Pow(2, M) / 2; i++)
             {
-                Console.Write(" " + values[i].X.ToString("N2"));
+                //Console.Write(" " + values[i].X.ToString("N2"));
                 scale += values[i].X;
             }
             if (scale < 0) scale *= -1;
             audioScale = scale * 5;
-            Console.WriteLine(" > " + scale);
+            //Console.WriteLine(" > " + scale);
 
             if (audioScale > 0)
             {

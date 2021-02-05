@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Clock"
-        mc:Ignorable="d" AllowsTransparency="True" WindowStyle="None" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Background="{x:Null}" MouseWheel="Window_MouseWhell" MouseDown="Window_MouseDown" Height="500" Width="500">
+        mc:Ignorable="d" AllowsTransparency="True" WindowStyle="None" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Background="{x:Null}" MouseWheel="Window_MouseWheel" MouseDown="Window_MouseDown" Height="500" Width="500">
     <Window.Resources>
         <Storyboard x:Key="sbseconds" RepeatBehavior="Forever">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" Storyboard.TargetName="second">
@@ -472,50 +472,52 @@
                 <Label x:Name="mouthEye" Content="" Foreground="White" HorizontalAlignment="Center" FontSize="48" VerticalAlignment="Top" />
             </Border>
 
-            <!--<Border x:Name="hour" CornerRadius="0 15 15 0" Width="51" BorderThickness="3" BorderBrush="#FF66B01C" Margin="0,96,49,96" HorizontalAlignment="Right" RenderTransformOrigin="0,0.5">
-                <Border.Effect>
-                    <DropShadowEffect BlurRadius="9" ShadowDepth="1"/>
-                </Border.Effect>
-                <Border.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform/>
-                        <SkewTransform/>
-                        <RotateTransform Angle="-90"/>
-                        <TranslateTransform/>
-                    </TransformGroup>
-                </Border.RenderTransform>
-            </Border>
-            <Border x:Name="minute" CornerRadius="0 15 15 0" Width="69" BorderThickness="2" BorderBrush="#FFD15209" Margin="0,96,31,99" HorizontalAlignment="Right" RenderTransformOrigin="0, 0.5" Background="{x:Null}">
-                <Border.Effect>
-                    <DropShadowEffect BlurRadius="9" ShadowDepth="1"/>
-                </Border.Effect>
-                <Border.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform/>
-                        <SkewTransform/>
-                        <RotateTransform Angle="-90"/>
-                        <TranslateTransform/>
-                    </TransformGroup>
-                </Border.RenderTransform>
-            </Border>
-            <Border x:Name="second" CornerRadius="0 15 15 0" Background="Red" Margin="100,95,13,102" RenderTransformOrigin="0, 0.5">
-                <Border.Effect>
-                    <DropShadowEffect BlurRadius="9" ShadowDepth="1"/>
-                </Border.Effect>
-                <Border.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform/>
-                        <SkewTransform/>
-                        <RotateTransform Angle="-90"/>
-                        <TranslateTransform/>
-                    </TransformGroup>
-                </Border.RenderTransform>
-            </Border>
-            <Ellipse Fill="Black" Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <Ellipse.Effect>
-                    <DropShadowEffect BlurRadius="9" ShadowDepth="1"/>
-                </Ellipse.Effect>
-            </Ellipse>-->
+            <Grid x:Name="clock" Opacity="0">
+                <Border x:Name="hour" CornerRadius="0 15 15 0" Width="51" BorderThickness="3" BorderBrush="white" Margin="0,96,49,96" HorizontalAlignment="Right" RenderTransformOrigin="0,0.5">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="9" ShadowDepth="1"/>
+                    </Border.Effect>
+                    <Border.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="-90"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Border.RenderTransform>
+                </Border>
+                <Border x:Name="minute" CornerRadius="0 15 15 0" Width="69" BorderThickness="2" BorderBrush="white" Margin="0,97,31,98" HorizontalAlignment="Right" RenderTransformOrigin="0, 0.5" Background="{x:Null}">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="9" ShadowDepth="1"/>
+                    </Border.Effect>
+                    <Border.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="-90"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Border.RenderTransform>
+                </Border>
+                <Border x:Name="second" CornerRadius="0 15 15 0" Background="white" Margin="100,98,13,99" RenderTransformOrigin="0, 0.5">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="9" ShadowDepth="1"/>
+                    </Border.Effect>
+                    <Border.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="-90"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Border.RenderTransform>
+                </Border>
+                <Ellipse Fill="White" Width="10" Height="10" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Ellipse.Effect>
+                        <DropShadowEffect BlurRadius="9" ShadowDepth="1"/>
+                    </Ellipse.Effect>
+                </Ellipse>
+            </Grid>
         </Grid>
     </Grid>
 </Window>
