@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Clock"
-        mc:Ignorable="d" AllowsTransparency="True" WindowStyle="None" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Background="{x:Null}" MouseWheel="Window_MouseWheel" MouseDown="Window_MouseDown" MouseMove="Window_MouseMove" MouseUp="Window_MouseUp" Height="500" Width="500">
+        mc:Ignorable="d" AllowsTransparency="True" WindowStyle="None" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Background="{x:Null}" MouseWheel="Window_MouseWheel" MouseDown="Window_MouseDown" MouseMove="Window_MouseMove" MouseUp="Window_MouseUp" Height="600" Width="600">
     <Window.Resources>
         <Storyboard x:Key="sbseconds" RepeatBehavior="Forever">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" Storyboard.TargetName="second">
@@ -398,10 +398,11 @@
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
     </Window.Resources>
-    <Grid RenderTransformOrigin="0.5,0.5">
+    <Grid x:Name="mainGrid" RenderTransformOrigin="0.5,0.5">
         <Grid.RenderTransform>
             <TransformGroup>
                 <ScaleTransform x:Name="mainScaleTransform"/>
+                <TranslateTransform x:Name="mainGridTransform"/>
             </TransformGroup>
         </Grid.RenderTransform>
         <Border x:Name="outterFire" BorderThickness="175" CornerRadius="140" Width="350" Height="350" RenderTransformOrigin="0.5,0.5"  Background="#90fed4ad">

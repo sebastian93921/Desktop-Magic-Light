@@ -141,7 +141,7 @@ namespace MagicLight
 
         private void Window_MouseWheel(object sender, MouseWheelEventArgs e)
         {
-            if (e.Delta > 0 && AppScale < 1.2)
+            if (e.Delta > 0 && AppScale < 0.8)
             {
                 AppScale += 0.1;
             }
@@ -159,15 +159,38 @@ namespace MagicLight
 
             Point cursorPos = GetMousePosition();
             Point relativePoint = this.PointFromScreen(cursorPos);
+
+            //Actual size
+            double mainActualWidth = (outterBorder.ActualWidth / 2) * AppScale;
+            double mainActualHeight = (outterBorder.ActualHeight / 2) * AppScale;
+
             relativePoint.X -= this.Width / 2;
             relativePoint.Y -= this.Height / 2;
 
+
+            //Within circle check
+            double withinX = relativePoint.X > 0 ? relativePoint.X : relativePoint.X * -1;
+            double withinY = relativePoint.Y > 0 ? relativePoint.Y : relativePoint.Y * -1;
+
+            //Console.WriteLine("X>" + relativePoint.X + "/" + withinX+ "/" + mainActualWidth);
+            //Console.WriteLine("Y>" + relativePoint.Y + "/" + withinY + "/" + mainActualHeight);
+            if (withinX < mainActualWidth && withinY < mainActualHeight && !Dragging)
+            {
+                DoubleAnimation anim1 = new DoubleAnimation(relativePoint.X * -1, new Duration(new TimeSpan(0, 0, 0, 1, 0)));
+                DoubleAnimation anim2 = new DoubleAnimation(relativePoint.Y * -1, new Duration(new TimeSpan(0, 0, 0, 1, 0)));
+                mainGridTransform.BeginAnimation(TranslateTransform.XProperty, anim1);
+                mainGridTransform.BeginAnimation(TranslateTransform.YProperty, anim2);
+                //Console.WriteLine("Is within Circle");
+            }else if (withinX > mainActualWidth || withinY > mainActualHeight && Dragging)
+            {
+                Dragging = false;
+            }
+
+            //Eyes and mouth checking
             int leftEyeX = relativePoint.X > -60 ? (int)relativePoint.X % 100 : (int)relativePoint.X % 40;
             int leftEyeY = (int)relativePoint.Y % 60;
-
             int rightEyeX = relativePoint.X < 60 ? (int)relativePoint.X % 100 : (int)relativePoint.X % 40;
             int rightEyeY = (int)relativePoint.Y % 60;
-
             int mouthX = (int)relativePoint.X % 40;
             int mouthY = (int)relativePoint.Y % 40;
 
